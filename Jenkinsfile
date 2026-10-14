@@ -31,9 +31,9 @@ pipeline {
         stage("build and push image") {
             steps {
                 script {
-                    buildImage 'nanatwn/demo-app:jma-3.0'
+                    buildImage '{PRIVATE_REPO}:{IMAGE_TAG}'
                     dockerLogin()
-                    dockerPush 'nanatwn/demo-app:jma-3.0'
+                    dockerPush '{PRIVATE_REPO}:{IMAGE_TAG}'
                 }
             }
         }
