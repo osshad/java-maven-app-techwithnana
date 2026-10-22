@@ -1,30 +1,30 @@
 pipeline {
     agent any
-    environment {
-        NEW_VERSION = '1.3.0'
-        SERVER_CREDENTIALS = credentials('server-creds')
+    tools {
+        maven 'maven-3.10'
     }
     stages {
-        stage("build") {
+        stage("build jar") {
             steps {
                 echo 'building the application...'
-                echo "building version ${NEW_VERSION}"
+                sh 'mvn package'
             }
         }
-        stage("test") {
+        stage("build image") {
             steps {
-                echo 'testing the application...'
+                echo 'building the docker image...'
+                withCredentials([
+                    usernamePassword(credentialsId: 'docker-hub-repo', usernameVariable: USER, passwordVariable: PASS)
+                ]) {
+                    sh 'docker build -t olushad/demo-app:jma-2.0 .'
+                    sh 'echo $PASS | docker login -u $USER --pasword-stdin'
+                    sh 'docker push olushad/demo-app:jma-2.0'
+                }
             }
         }
         stage("deploy") {
             steps {
                 echo 'deploying the application...'
-                echo "deploying with ${SERVER_CREDENTIALS} without withCreds"
-                withCredentials([
-                    usernamePassword(credentials: 'server-creds', usernameVariable: USER, passwordVariable: PWD)
-                ]) {
-                    sh "some script ${USER} ${PWD}"
-                }
             }
         }
     }
