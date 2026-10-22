@@ -1,41 +1,31 @@
-def gv
-
-pipeline {   
+pipeline {
     agent any
-    tools {
-        maven 'Maven'
+    environment {
+        NEW_VERSION = '1.3.0'
+        SERVER_CREDENTIALS = credentials('server-creds')
     }
     stages {
-        stage("init") {
+        stage("build") {
             steps {
-                script {
-                    gv = load "script.groovy"
-                }
+                echo 'building the application...'
+                echo "building version ${NEW_VERSION}"
             }
         }
-        stage("build jar") {
+        stage("test") {
             steps {
-                script {
-                    gv.buildJar()
-
-                }
+                echo 'testing the application...'
             }
         }
-
-        stage("build image") {
-            steps {
-                script {
-                    gv.buildImage()
-                }
-            }
-        }
-
         stage("deploy") {
             steps {
-                script {
-                    gv.deployApp()
+                echo 'deploying the application...'
+                echo "deploying with ${SERVER_CREDENTIALS} without withCreds"
+                withCredentials([
+                    usernamePassword(credentials: 'server-creds', usernameVariable: USER, passwordVariable: PWD)
+                ]) {
+                    sh "some script ${USER} ${PWD}"
                 }
             }
-        }               
+        }
     }
-} 
+}
