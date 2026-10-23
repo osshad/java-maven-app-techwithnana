@@ -23,10 +23,12 @@ pipeline {
             }
         }
 
-        stage("build image") {
+        stage("build and push image") {
             steps {
                 script {
+                    dockerLogin()
                     buildImage 'olushad/demo-app:jma-3.0'
+                    dockerPush 'olushad/demo-app:jma-3.0'
                 }
             }
         }
