@@ -6,6 +6,7 @@ pipeline {
                script {
                    echo "Testing the application..."
                    echo "Branch name $BRANCH_NAME"
+                   echo "Testing push event"
                }
            }
        }
