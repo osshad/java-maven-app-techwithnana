@@ -21,6 +21,13 @@ pipeline {
                 }
             }
         }
+        stage("increment version") {
+            steps {
+                script {
+                    env.IMAGE_NAME=incrementVersion()
+                }
+            }
+        }
         stage("build jar") {
             steps {
                 script {
