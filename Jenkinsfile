@@ -10,6 +10,7 @@ pipeline {
             steps {
                 echo 'Testing the application...'
                 echo "Branch name: ${env.GIT_BRANCH}"
+                echo 'New changes added'
             }
         }
 
