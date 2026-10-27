@@ -17,7 +17,7 @@ pipeline {
             when {
                 expression {
                     env.GIT_BRANCH == 'origin/single_pipeline_branch' ||
-                    env.GIT_BRANCH == 'master'
+                    env.GIT_BRANCH == 'single_pipeline_branch'
                 }
             }
             steps {
@@ -29,7 +29,7 @@ pipeline {
             when {
                 expression {
                     env.GIT_BRANCH == 'origin/single_pipeline_branch' ||
-                    env.GIT_BRANCH == 'master'
+                    env.GIT_BRANCH == 'single_pipeline_branch'
                 }
             }
             steps {
