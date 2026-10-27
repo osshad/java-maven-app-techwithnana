@@ -1,36 +1,39 @@
 pipeline {
     agent any
+
+    triggers {
+        githubPush()
+    }
+
     stages {
-       stage("test") {
-           steps {
-               script {
-                   echo "Testing the application..."
-                   echo "Branch name $BRANCH_NAME"
-               }
-           }
-       }
-        stage("build") {
-            when {
-                expression {
-                    BRANCH_NAME == "master"
-                }
+        stage('test') {
+            steps {
+                echo 'Testing the application...'
+                echo "Branch name: ${env.GIT_BRANCH}"
             }
-           steps {
-               script {
-                   echo "Building the application..."
-               }
-           }
-       }
-        stage('deploy') {
+        }
+
+        stage('build') {
             when {
                 expression {
-                    BRANCH_NAME == "master"
+                    env.GIT_BRANCH == 'origin/master' ||
+                    env.GIT_BRANCH == 'master'
                 }
             }
             steps {
-                script {
-                    echo 'deploying docker image...'
+                echo 'Building the application...'
+            }
+        }
+
+        stage('deploy') {
+            when {
+                expression {
+                    env.GIT_BRANCH == 'origin/master' ||
+                    env.GIT_BRANCH == 'master'
                 }
+            }
+            steps {
+                echo 'Deploying Docker image...'
             }
         }
     }
