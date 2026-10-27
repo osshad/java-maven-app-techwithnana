@@ -54,6 +54,14 @@ pipeline {
                     gv.deployApp()
                 }
             }
-        }               
+        }
+
+        stage("commit version update") {
+            steps {
+                script {
+                    gv.commitVersionUpdate()
+                }
+            }
+        }
     }
 } 
