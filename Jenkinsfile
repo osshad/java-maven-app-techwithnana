@@ -40,8 +40,8 @@ pipeline {
             steps {
                 script {
                     dockerLogin()
-                    buildImage "olushad/demo-app:$IMAGE_NAME"
-                    dockerPush "olushad/demo-app:$IMAGE_NAME"
+                    buildImage "olushad/demo-app:${IMAGE_NAME}"
+                    dockerPush "olushad/demo-app:${IMAGE_NAME}"
                 }
             }
         }
