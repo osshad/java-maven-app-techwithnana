@@ -24,7 +24,9 @@ pipeline {
         stage("increment version") {
             steps {
                 script {
-                    env.IMAGE_NAME=incrementVersion()
+                    def imageTag = incrementVersion()
+                    echo "Image tag: ${imageTag}
+                    env.IMAGE_NAME = imageTag
                 }
             }
         }
