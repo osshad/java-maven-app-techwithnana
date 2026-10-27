@@ -16,7 +16,7 @@ pipeline {
         stage('build') {
             when {
                 expression {
-                    env.GIT_BRANCH == 'origin/master' ||
+                    env.GIT_BRANCH == 'origin/single_pipeline_branch' ||
                     env.GIT_BRANCH == 'master'
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
         stage('deploy') {
             when {
                 expression {
-                    env.GIT_BRANCH == 'origin/master' ||
+                    env.GIT_BRANCH == 'origin/single_pipeline_branch' ||
                     env.GIT_BRANCH == 'master'
                 }
             }
